@@ -1,9 +1,14 @@
 import React from 'react';
+import TitleSection from '../components/title-section/title-section.component';
+import ImageSection from '../components/image-section/image-section.component';
+import FormSection from '../components/form-section/form-section.component';
 
 const CreateArticlePage = () => {
     return (
         <div>
-            <h1>Create Article Page</h1>
+            <TitleSection />
+            <ImageSection />
+            <FormSection />
         </div>
     )
 }
