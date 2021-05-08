@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import CreateArticlePage from '../src/pages/create-article-page.component';
-import ArticlesPage from '../src/pages/articles-page.component';
+import CreateArticlePage from './pages/create-article-page/create-article-page.component';
+import ArticlesPage from './pages/articles-page/articles-page.component';
 
 import './App.scss';
 
