@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import CreateArticlePage from '../src/pages/create-article-page.component';
 import ArticlesPage from '../src/pages/articles-page.component';
 
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
