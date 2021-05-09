@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.14.0",
+    "@draft-js-plugins/buttons": "^4.1.0",
     "@draft-js-plugins/editor": "^4.1.0",
     "@draft-js-plugins/emoji": "^4.5.3",
     "@draft-js-plugins/linkify": "^4.1.0",
