@@ -35,7 +35,7 @@ class HeadlinesPicker extends Component {
     }
 }
 
-  export default HeadlinesPicker
+export default HeadlinesPicker
 
 // const HeadlinePicker = (props) => {
 //     const { onOverrideContent } = props;
