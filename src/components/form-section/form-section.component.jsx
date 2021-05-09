@@ -1,6 +1,8 @@
 import React, {useState, useRef } from 'react';
 import Editor, { createEditorStateWithText } from '@draft-js-plugins/editor';
 import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
+import '@draft-js-plugins/static-toolbar/lib/plugin.css';
+
 import editorStyles from './form-section.module.scss';
 
 const staticToolbarPlugin = createToolbarPlugin();
@@ -25,9 +27,7 @@ const FormSection = () => {
     return (
         <div>
             <div className={editorStyles.editor} onClick={focus}>
-                <div className={editorStyles.toolbar}>
-                    <Toolbar/>
-                </div>
+                <Toolbar/>
                 <Editor
                     editorState={editorState}
                     onChange={onChange}
