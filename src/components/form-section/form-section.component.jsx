@@ -1,17 +1,30 @@
 import React, {useState, useRef } from 'react';
-import Editor, { createEditorStateWithText } from '@draft-js-plugins/editor';
+import { EditorState } from 'draft-js';
+import Editor from '@draft-js-plugins/editor';
 import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
+import createEmojiPlugin from '@draft-js-plugins/emoji';
+import createLinkifyPlugin from '@draft-js-plugins/linkify';
+
 import '@draft-js-plugins/static-toolbar/lib/plugin.css';
+import '@draft-js-plugins/emoji/lib/plugin.css';
+import '@draft-js-plugins/linkify/lib/plugin.css';
 
 import editorStyles from './form-section.module.scss';
 
 const staticToolbarPlugin = createToolbarPlugin();
-const { Toolbar } = staticToolbarPlugin;
-const plugins = [staticToolbarPlugin];
-const text = '';
+const { Toolbar } = staticToolbarPlugin;;
+
+const emojiPlugin = createEmojiPlugin();
+const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
+
+const linkifyPlugin = createLinkifyPlugin();
+
+const plugins = [staticToolbarPlugin, emojiPlugin, linkifyPlugin]
+// const plugins = [linkifyPlugin]
+
 
 const FormSection = () => {
-    const [editorState, setEditorState] = useState(() =>createEditorStateWithText(text));
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     
     let editor = useRef(null);
 
@@ -27,7 +40,13 @@ const FormSection = () => {
     return (
         <div>
             <div className={editorStyles.editor} onClick={focus}>
-                <Toolbar/>
+                <div className={editorStyles.allTools}>
+                    <Toolbar />
+                    <div>
+                        <EmojiSuggestions />
+                        <EmojiSelect />
+                    </div>
+                </div>
                 <Editor
                     editorState={editorState}
                     onChange={onChange}
