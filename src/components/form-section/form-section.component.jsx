@@ -1,6 +1,7 @@
 import React, {useState, useRef } from 'react';
-import { EditorState } from 'draft-js';
-import Editor from '@draft-js-plugins/editor';
+import { EditorState, ContentState } from 'draft-js';
+import axios from 'axios';
+import Editor, { createEditorStateWithText } from '@draft-js-plugins/editor';
 import createToolbarPlugin, { Separator } from '@draft-js-plugins/static-toolbar';
 import createEmojiPlugin from '@draft-js-plugins/emoji';
 import createLinkifyPlugin from '@draft-js-plugins/linkify';
@@ -41,58 +42,99 @@ const plugins = [toolbarPlugin, emojiPlugin, linkifyPlugin, undoPlugin]
 
 
 const FormSection = () => {
-    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+    const [title, setTitle] = useState(() => EditorState.createEmpty());
     
-    let editor = useRef(null);
+    const [body, setBody] = useState(() => EditorState.createEmpty());
+    
+    let titleEditor = useRef(null);
+    let bodyEditor = useRef(null);
 
-
-    const onChange = (editorState) => {
-        setEditorState(editorState);
+    const titleFocus = () => {
+        titleEditor.focus();
     };
 
-    const focus = () => {
-        editor.focus();
+    const bodyFocus = () => {
+        bodyEditor.focus();
+    };
+
+    const onTitleChange = (title) => {
+        setTitle(title);
+    };
+
+    const onBodyChange = (body) => {
+        setBody(body);
+    };
+
+    const titleText = title.getCurrentContent().getPlainText();
+    const bodyText = body.getCurrentContent().getPlainText();
+
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        const article  = {
+            title: titleText, 
+            body: bodyText
+        }
+
+        console.log(article);
+
+        // use axios to create a new article here
+        axios.post('http://localhost:4600/articles/create', article)
+            .then(res => console.log(res.data));
+
+        //clear editors
+    
     };
 
     return (
-        <div>
-            <div className={editorStyles.editor} onClick={focus}>
-                <div className={editorStyles.allTools}>
-                    <Toolbar>
-                        {
-                            (externalProps) => (
-                                <div>
-                                    <BoldButton {...externalProps} />
-                                    <ItalicButton {...externalProps} />
-                                    <UnderlineButton {...externalProps} />
-                                    <CodeButton {...externalProps} />
-                                    <Separator {...externalProps} />
-                                    <HeadlinesButton {...externalProps} />
-                                    <UnorderedListButton {...externalProps} />
-                                    <OrderedListButton {...externalProps} />
-                                    <BlockquoteButton {...externalProps} />
-                                    <CodeBlockButton {...externalProps} />
-                                </div>
-                            )
-                        }
-                    </Toolbar>
-                    <div>
-                        <EmojiSuggestions />
-                        <EmojiSelect />
-                    </div>
-                    <div>
-                        <UndoButton />
-                        <RedoButton />
-                    </div>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <div className={editorStyles.titleEditor} onClick={titleFocus}>
+                    <Editor
+                        editorState={title}
+                        onChange={onTitleChange}
+                        ref={el => titleEditor = el}
+                    />
                 </div>
-                <Editor
-                    editorState={editorState}
-                    onChange={onChange}
-                    plugins={plugins}
-                    ref={el => editor = el}
-                />
+                <div className={editorStyles.bodyEditor} onClick={bodyFocus}>
+                    <div className={editorStyles.allTools}>
+                        <Toolbar>
+                            {
+                                (externalProps) => (
+                                    <div>
+                                        <BoldButton {...externalProps} />
+                                        <ItalicButton {...externalProps} />
+                                        <UnderlineButton {...externalProps} />
+                                        <CodeButton {...externalProps} />
+                                        <Separator {...externalProps} />
+                                        <HeadlinesButton {...externalProps} />
+                                        <UnorderedListButton {...externalProps} />
+                                        <OrderedListButton {...externalProps} />
+                                        <BlockquoteButton {...externalProps} />
+                                        <CodeBlockButton {...externalProps} />
+                                    </div>
+                                )
+                            }
+                        </Toolbar>
+                        <div>
+                            <EmojiSuggestions />
+                            <EmojiSelect />
+                        </div>
+                        <div>
+                            <UndoButton />
+                            <RedoButton />
+                        </div>
+                    </div>
+                    <Editor
+                        editorState={body}
+                        onChange={onBodyChange}
+                        plugins={plugins}
+                        ref={el => bodyEditor = el}
+                    />
+                </div>
             </div>
-        </div>
+            <button type='submit' value='submit'>Publish Article</button>
+        </form>
     );
 }
 
