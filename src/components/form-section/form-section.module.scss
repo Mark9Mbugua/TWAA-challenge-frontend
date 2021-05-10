@@ -3,42 +3,6 @@ form {
     flex-direction: column;
 }
 
-.titleEditor {
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    cursor: text;
-    padding: 16px;
-    border-radius: 2px;
-    margin-bottom: 2em;
-    box-shadow: inset 0px 1px 8px -3px #ABABAB;
-    background: #fefefe;
-}
-
-.titleEditor :global(.public-DraftEditor-content) {
-    min-height: 70px;
-}
-
-
-.bodyEditor {
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    cursor: text;
-    padding: 16px;
-    border-radius: 2px;
-    margin-bottom: 2em;
-    box-shadow: inset 0px 1px 8px -3px #ABABAB;
-    background: #fefefe;
-}
-
-.bodyEditor :global(.public-DraftEditor-content) {
-    min-height: 140px;
-}
-
-
-.allTools {
-    display: flex;
-}
-
 button {
     padding-block: 0.7rem;
     padding-inline: 1rem;
@@ -49,7 +13,7 @@ button {
     outline: none;
     cursor: pointer;
     transition: 0.2s;
-    align-self: flex-start;
+    align-self: flex-end;
 
     &:hover {
         background: #bb911e;

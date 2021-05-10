@@ -1,82 +1,45 @@
-import React, {useState, useRef } from 'react';
-import { EditorState } from 'draft-js';
+import React, {useEffect, useState } from 'react';
+import { EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
 import axios from 'axios';
-import Editor  from '@draft-js-plugins/editor';
-import createToolbarPlugin, { Separator } from '@draft-js-plugins/static-toolbar';
-import createEmojiPlugin from '@draft-js-plugins/emoji';
-import createLinkifyPlugin from '@draft-js-plugins/linkify';
-import createUndoPlugin from '@draft-js-plugins/undo';
 
-import HeadlinesButton from '../headlines-button/headlines-button.component';
+import TitleEditor from '../title-editor/title-editor.component';
+import BodyEditor from '../body-editor/body-editor.component';
 
-import {
-    ItalicButton,
-    BoldButton,
-    UnderlineButton,
-    CodeButton,
-    UnorderedListButton,
-    OrderedListButton,
-    BlockquoteButton,
-    CodeBlockButton,
-  } from '@draft-js-plugins/buttons';
-
-import '@draft-js-plugins/static-toolbar/lib/plugin.css';
-import '@draft-js-plugins/emoji/lib/plugin.css';
-import '@draft-js-plugins/linkify/lib/plugin.css';
-import '@draft-js-plugins/undo/lib/plugin.css';
-
-import editorStyles from './form-section.module.scss';
-
-const toolbarPlugin = createToolbarPlugin();
-const { Toolbar } = toolbarPlugin;;
-
-const emojiPlugin = createEmojiPlugin();
-const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
-
-const linkifyPlugin = createLinkifyPlugin();
-
-const undoPlugin = createUndoPlugin();
-const { UndoButton, RedoButton } = undoPlugin;
-
-const plugins = [toolbarPlugin, emojiPlugin, linkifyPlugin, undoPlugin]
-
+import formStyles from './form-section.module.scss';
 
 const FormSection = () => {
     const [title, setTitle] = useState(() => EditorState.createEmpty());
     
     const [body, setBody] = useState(() => EditorState.createEmpty());
-    
-    let titleEditor = useRef(null);
-    let bodyEditor = useRef(null);
-
-    const titleFocus = () => {
-        titleEditor.focus();
-    };
-
-    const bodyFocus = () => {
-        bodyEditor.focus();
-    };
 
     const onTitleChange = (title) => {
         setTitle(title);
+        console.log(convertToRaw(title.getCurrentContent()));
     };
 
     const onBodyChange = (body) => {
         setBody(body);
+        console.log(convertToRaw(body.getCurrentContent()));
     };
+
+    // const rawTitle = convertToRaw(title.getCurrentContent());
+    // const rawBody = convertToRaw(body.getCurrentContent());
+
+    // const article  = {
+    //     title: rawTitle, 
+    //     body: rawBody
+    // }
 
     const titleText = title.getCurrentContent().getPlainText();
     const bodyText = body.getCurrentContent().getPlainText();
 
+    const article  = {
+        title: titleText, 
+        body: bodyText
+    }
+
     const handleSubmit = e => {
         e.preventDefault();
-
-        const article  = {
-            title: titleText, 
-            body: bodyText
-        }
-
-        console.log(article);
 
         // use axios to create a new article here
         axios.post('http://localhost:4600/articles/create', article)
@@ -86,52 +49,32 @@ const FormSection = () => {
     
     };
 
+    useEffect(()=>{
+        const data = JSON.parse(localStorage.getItem('article'));
+        if(data){
+            setTitle(() => EditorState.createWithContent(ContentState.createFromText(data.title)));
+            setBody(() => EditorState.createWithContent(ContentState.createFromText(data.body)));
+         } else {
+            setTitle(() => EditorState.createEmpty());
+            setBody(() => EditorState.createEmpty());
+         }
+    },[]);
+
+    useEffect(()=>{
+        localStorage.setItem('article', JSON.stringify(article))
+    });
+
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <div className={editorStyles.titleEditor} onClick={titleFocus}>
-                    <Editor
-                        editorState={title}
-                        onChange={onTitleChange}
-                        ref={el => titleEditor = el}
-                    />
-                </div>
-                <div className={editorStyles.bodyEditor} onClick={bodyFocus}>
-                    <div className={editorStyles.allTools}>
-                        <Toolbar>
-                            {
-                                (externalProps) => (
-                                    <div>
-                                        <BoldButton {...externalProps} />
-                                        <ItalicButton {...externalProps} />
-                                        <UnderlineButton {...externalProps} />
-                                        <CodeButton {...externalProps} />
-                                        <Separator {...externalProps} />
-                                        <HeadlinesButton {...externalProps} />
-                                        <UnorderedListButton {...externalProps} />
-                                        <OrderedListButton {...externalProps} />
-                                        <BlockquoteButton {...externalProps} />
-                                        <CodeBlockButton {...externalProps} />
-                                    </div>
-                                )
-                            }
-                        </Toolbar>
-                        <div>
-                            <EmojiSuggestions />
-                            <EmojiSelect />
-                        </div>
-                        <div>
-                            <UndoButton />
-                            <RedoButton />
-                        </div>
-                    </div>
-                    <Editor
-                        editorState={body}
-                        onChange={onBodyChange}
-                        plugins={plugins}
-                        ref={el => bodyEditor = el}
-                    />
-                </div>
+                <TitleEditor 
+                    title={title}
+                    onTitleChange={onTitleChange}
+                />
+                <BodyEditor
+                    body={body}
+                    onBodyChange={onBodyChange}
+                />
             </div>
             <button type='submit' value='submit'>Publish Article</button>
         </form>
