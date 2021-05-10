@@ -2,6 +2,7 @@ import React, {useEffect, useState } from 'react';
 import { EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
 import axios from 'axios';
 
+import ImageUploader from '../image-uploader/image-uploader.component';
 import TitleEditor from '../title-editor/title-editor.component';
 import BodyEditor from '../body-editor/body-editor.component';
 
@@ -11,6 +12,18 @@ const FormSection = () => {
     const [title, setTitle] = useState(() => EditorState.createEmpty());
     
     const [body, setBody] = useState(() => EditorState.createEmpty());
+
+    const [currentImg, setCurrentImg] = useState('https://wallpaperaccess.com/full/1216247.jpg');
+
+    const imageHandler = (e) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if(reader.readyState === 2){
+                setCurrentImg(reader.result)
+            }
+        }
+        reader.readAsDataURL(e.target.files[0])
+    }
 
     const onTitleChange = (title) => {
         setTitle(title);
@@ -41,11 +54,13 @@ const FormSection = () => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        // use axios to create a new article here
+        // use axios to create a new article
         axios.post('http://localhost:4600/articles/create', article)
             .then(res => console.log(res.data));
 
         //clear editors
+        setTitle(() => EditorState.createEmpty());
+        setBody(() => EditorState.createEmpty());
     
     };
 
@@ -67,6 +82,10 @@ const FormSection = () => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
+                <ImageUploader
+                    imageHandler={imageHandler} 
+                    currentImg={currentImg}
+                />
                 <TitleEditor 
                     title={title}
                     onTitleChange={onTitleChange}

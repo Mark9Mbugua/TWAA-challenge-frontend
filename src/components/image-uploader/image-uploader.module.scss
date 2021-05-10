@@ -1,0 +1,33 @@
+.container {
+    height: 15rem;
+    margin-block: 2em;
+}
+
+.imgHolder {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+
+.img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: relative;
+}
+
+.input {
+    visibility:hidden;
+    width: 0;
+    height: 0;
+}
+
+.icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    position: absolute;
+    top: 35%;
+    right: 17%;
+    cursor: pointer;
+}
