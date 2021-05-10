@@ -1,7 +1,7 @@
 import React, {useState, useRef } from 'react';
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import axios from 'axios';
-import Editor, { createEditorStateWithText } from '@draft-js-plugins/editor';
+import Editor  from '@draft-js-plugins/editor';
 import createToolbarPlugin, { Separator } from '@draft-js-plugins/static-toolbar';
 import createEmojiPlugin from '@draft-js-plugins/emoji';
 import createLinkifyPlugin from '@draft-js-plugins/linkify';
