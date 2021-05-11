@@ -16,7 +16,7 @@ const HeadlinesButton = ({ onOverrideContent }) => {
                 onClick={() => onOverrideContent(HeadlinesPicker)} 
                 className={headlineStyles.headlineButton}
             >
-                H
+            H
             </button>
         </div>
     );
