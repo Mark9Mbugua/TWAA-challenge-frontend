@@ -8,31 +8,27 @@ import BodyEditor from '../body-editor/body-editor.component';
 
 import formStyles from './form-section.module.scss';
 
+import defaultImg from '../../assets/grey-bg.jpg';
+
 const FormSection = () => {
     const [title, setTitle] = useState(() => EditorState.createEmpty());
     
     const [body, setBody] = useState(() => EditorState.createEmpty());
 
-    const [currentImg, setCurrentImg] = useState('https://wallpaperaccess.com/full/1216247.jpg');
+    const [currentImg, setCurrentImg] = useState(defaultImg);
 
-    const imageHandler = (e) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if(reader.readyState === 2){
-                setCurrentImg(reader.result)
-            }
-        }
-        reader.readAsDataURL(e.target.files[0])
-    }
+    const onChangeFile = (e) => {
+        setCurrentImg(e.target.files[0]);
+    };
 
     const onTitleChange = (title) => {
         setTitle(title);
-        console.log(convertToRaw(title.getCurrentContent()));
+        // console.log(convertToRaw(title.getCurrentContent()));
     };
 
     const onBodyChange = (body) => {
         setBody(body);
-        console.log(convertToRaw(body.getCurrentContent()));
+        // console.log(convertToRaw(body.getCurrentContent()));
     };
 
     // const rawTitle = convertToRaw(title.getCurrentContent());
@@ -48,19 +44,30 @@ const FormSection = () => {
 
     const article  = {
         title: titleText, 
-        body: bodyText
+        body: bodyText,
+        image: currentImg,
     }
 
     const handleSubmit = e => {
         e.preventDefault();
 
+        const formData = new FormData();
+
+        formData.append('title', titleText);
+        formData.append('body', bodyText);
+        formData.append('image', currentImg);
+
+        console.log(formData);
+
         // use axios to create a new article
-        axios.post('http://localhost:4600/articles/create', article)
-            .then(res => console.log(res.data));
+        axios.post('http://localhost:4600/articles/create', formData)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err));
 
         //clear editors
         setTitle(() => EditorState.createEmpty());
         setBody(() => EditorState.createEmpty());
+        setCurrentImg(defaultImg);
     
     };
 
@@ -80,11 +87,11 @@ const FormSection = () => {
     });
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className={formStyles.form} onSubmit={handleSubmit} encType='multipart/form-data'>
             <div>
                 <ImageUploader
-                    imageHandler={imageHandler} 
                     currentImg={currentImg}
+                    onChangeFile={onChangeFile}
                 />
                 <TitleEditor 
                     title={title}
@@ -95,7 +102,7 @@ const FormSection = () => {
                     onBodyChange={onBodyChange}
                 />
             </div>
-            <button type='submit' value='submit'>Publish Article</button>
+            <button className={formStyles.button} type='submit' value='submit'>Publish Article</button>
         </form>
     );
 }

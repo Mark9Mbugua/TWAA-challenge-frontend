@@ -1,23 +1,30 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import EditIcon from  '../../assets/edit.svg';
 
 import imageStyles from './image-uploader.module.scss';
 
-const ImageUploader = ({ imageHandler, currentImg}) => {
+import defaultImg from '../../assets/grey-bg.jpg';
+
+const ImageUploader = ({ currentImg, onChangeFile}) => {
 
     return (
         <div className={imageStyles.container}>
-           <div className={imageStyles.imgHolder}>
-                <img src={currentImg} alt='' id='img' className={imageStyles.img} />
+            <div className={imageStyles.imgHolder}>
+                {
+                    currentImg === defaultImg ?
+                        <img src={currentImg} alt='' id='img' className={imageStyles.img} />
+                    :
+                        <img src={URL.createObjectURL(currentImg)} alt='' id='img' className={imageStyles.img} />
+                }
             </div>
             <input 
                 className={imageStyles.input} 
                 type='file' 
-                name='image-upload' 
+                filename='image' 
                 id='input' 
                 accept='image/*'
-                onChange={imageHandler}
+                onChange={onChangeFile}
             />
             <div className={imageStyles.label}>
                 <label htmlFor='input' className={imageStyles.imgUpload}>
@@ -25,7 +32,7 @@ const ImageUploader = ({ imageHandler, currentImg}) => {
                 </label>
             </div>
         </div>
-    )
+    );
 }
 
 export default ImageUploader
