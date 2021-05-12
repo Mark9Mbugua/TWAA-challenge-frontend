@@ -1,13 +1,13 @@
 import React from 'react';
 
-import './title-section.styles.scss'
-
 import CommonTitle from '../common-title/common-title.component';
+
+import titlesStyles from './title-section.module.scss';
 
 const TitleSection = () => {
     return (
-        <div className='title-section-container'>
-            <div className='titles-container'>
+        <div className={titlesStyles.sectionContainer}>
+            <div className={titlesStyles.titlesContainer}>
                 <CommonTitle>New Article</CommonTitle>
                 <CommonTitle>View Articles</CommonTitle>
             </div>

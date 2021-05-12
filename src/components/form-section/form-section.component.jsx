@@ -145,7 +145,7 @@ const FormSection = () => {
                         <Toolbar>
                             {
                                 (externalProps) => (
-                                    <div>
+                                    <div className={formStyles.toolButtons}>
                                         <BoldButton {...externalProps} />
                                         <ItalicButton {...externalProps} />
                                         <UnderlineButton {...externalProps} />
@@ -160,11 +160,11 @@ const FormSection = () => {
                                 )
                             }
                         </Toolbar>
-                        <div>
+                        <div className={formStyles.tool}>
                             <EmojiSuggestions />
                             <EmojiSelect />
                         </div>
-                        <div>
+                        <div className={formStyles.tool}>
                             <UndoButton />
                             <RedoButton />
                         </div>
@@ -173,6 +173,7 @@ const FormSection = () => {
                         editorState={body}
                         onChange={onBodyChange}
                         plugins={plugins}
+                        placeholder='Create Article'
                         ref={el => bodyEditor = el}
                     />
                 </div>

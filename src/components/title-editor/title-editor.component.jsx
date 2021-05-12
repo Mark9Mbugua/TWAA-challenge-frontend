@@ -17,6 +17,7 @@ const TitleEditor = ({title, onTitleChange}) => {
             <Editor
                 editorState={title}
                 onChange={onTitleChange}
+                placeholder='Article Heading'
                 ref={el => titleEditor = el}
             />
         </div>

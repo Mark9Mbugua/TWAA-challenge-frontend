@@ -1,11 +1,8 @@
-form {
-    display: flex;
-    flex-direction: column;
-}
+@import '../../variables';
 
-.bodyEditor {
+@mixin editorStyles {
     box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     cursor: text;
     padding: 16px;
     border-radius: 2px;
@@ -14,19 +11,43 @@ form {
     background: #fefefe;
 }
 
+@mixin toobarSpacing {
+    padding-inline: 0.3em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.bodyEditor {
+    @include editorStyles();
+}
+
 .bodyEditor :global(.public-DraftEditor-content) {
     min-height: 140px;
 }
 
+.toolButtons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .allTools {
     display: flex;
+    margin-bottom: 1rem;
+}
+
+.tool {
+    @include toobarSpacing();
 }
 
 button {
     padding-block: 0.7rem;
     padding-inline: 1rem;
     border-radius: 0.3rem;
-    background: #d5a10f;
+    background: $primaryColor;
     color: #fff;
     font-size: 1rem;
     outline: none;
@@ -35,6 +56,6 @@ button {
     align-self: flex-end;
 
     &:hover {
-        background: #bb911e;
+        background: $secondaryColor;
     }
 }
