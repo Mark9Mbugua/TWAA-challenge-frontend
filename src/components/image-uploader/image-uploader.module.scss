@@ -1,0 +1,36 @@
+@mixin imgStyles {
+    height: 100%;
+    width: 100%;
+    position: relative;
+} 
+
+
+.container {
+    height: 15rem;
+    margin-block: 2em;
+}
+
+.imgHolder {
+    @include imgStyles();
+}
+
+.img {
+    @include imgStyles();
+    
+    object-fit: cover;
+}
+
+.input {
+    visibility:hidden;
+    width: 0;
+    height: 0;
+}
+
+.icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    position: absolute;
+    top: 40%;
+    right: 17%;
+    cursor: pointer;
+}

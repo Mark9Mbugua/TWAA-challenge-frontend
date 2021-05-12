@@ -1,0 +1,17 @@
+@import '../../variables';
+
+.sectionContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.titlesContainer {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 1rem;
+}
+
+hr {
+    border: 0.1px solid $primaryColor;
+}

@@ -1,0 +1,17 @@
+.headlineButtonWrapper {
+    display: inline-block;
+  }
+
+.headlineButton {
+    background: #fbfbfb;
+    color: #888;
+    font-size: 1.3rem;
+    border: 0;
+    padding: 0.5em;
+    height: 100%;
+  }
+  
+  .headlineButton:hover,
+  .headlineButton:focus {
+    background: #f3f3f3;
+  }

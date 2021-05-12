@@ -1,0 +1,61 @@
+@import '../../variables';
+
+@mixin editorStyles {
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    cursor: text;
+    padding: 16px;
+    border-radius: 2px;
+    margin-bottom: 2em;
+    box-shadow: inset 0px 1px 8px -3px #ABABAB;
+    background: #fefefe;
+}
+
+@mixin toobarSpacing {
+    padding-inline: 0.3em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.bodyEditor {
+    @include editorStyles();
+}
+
+.bodyEditor :global(.public-DraftEditor-content) {
+    min-height: 140px;
+}
+
+.toolButtons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.allTools {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.tool {
+    @include toobarSpacing();
+}
+
+button {
+    padding-block: 0.7rem;
+    padding-inline: 1rem;
+    border-radius: 0.3rem;
+    background: $primaryColor;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    transition: 0.2s;
+    align-self: flex-end;
+
+    &:hover {
+        background: $secondaryColor;
+    }
+}

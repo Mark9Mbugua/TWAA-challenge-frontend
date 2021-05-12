@@ -1,0 +1,21 @@
+@import '../../components/form-section/form-section.module';
+
+.pageContainer {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.editorContainer {
+    width: 80%;
+}
+
+.editor {
+    @include editorStyles();
+}
+
+.editor :global(.public-DraftEditor-content) {
+    min-height: 70px;
+}

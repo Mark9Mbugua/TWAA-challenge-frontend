@@ -1,0 +1,13 @@
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-inline: 1em;
+}
+
+.button {
+    justify-self: center;
+    align-self: center;
+    margin: 0;
+    padding: 0;
+}

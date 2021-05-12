@@ -1,0 +1,9 @@
+@import '../form-section/form-section.module';
+
+.editor {
+    @include editorStyles();
+}
+
+.editor :global(.public-DraftEditor-content) {
+    min-height: 70px;
+}
