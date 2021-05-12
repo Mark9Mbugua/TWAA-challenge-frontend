@@ -1,20 +1,23 @@
+@mixin imgStyles {
+    height: 100%;
+    width: 100%;
+    position: relative;
+} 
+
+
 .container {
     height: 15rem;
     margin-block: 2em;
 }
 
 .imgHolder {
-    height: 100%;
-    width: 100%;
-    position: relative;
+    @include imgStyles();
 }
 
-
 .img {
-    height: 100%;
-    width: 100%;
+    @include imgStyles();
+    
     object-fit: cover;
-    position: relative;
 }
 
 .input {
@@ -27,7 +30,7 @@
     width: 3.5rem;
     height: 3.5rem;
     position: absolute;
-    top: 35%;
+    top: 40%;
     right: 17%;
     cursor: pointer;
 }
