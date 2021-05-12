@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';  
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import axios from 'axios';
 
@@ -48,10 +49,8 @@ const { UndoButton, RedoButton } = undoPlugin;
 const plugins = [toolbarPlugin, emojiPlugin, linkifyPlugin, undoPlugin]
 
 const FormSection = () => {
-    const [title, setTitle] = useState(() => EditorState.createEmpty());
-    
+    const [title, setTitle] = useState(() => EditorState.createEmpty());  
     const [body, setBody] = useState(() => EditorState.createEmpty());
-
     const [currentImg, setCurrentImg] = useState(defaultImg);
 
     let bodyEditor = useRef(null);
@@ -78,6 +77,8 @@ const FormSection = () => {
     const titleString = JSON.stringify(convertToRaw(rawTitleJs));
     const bodyString = JSON.stringify(convertToRaw(rawBodyJs));
 
+    let history = useHistory();
+
     const handleSubmit = e => {
         e.preventDefault();
 
@@ -91,7 +92,12 @@ const FormSection = () => {
 
         // use axios to create a new article
         axios.post('https://twaachallenge.herokuapp.com/articles/create', formData)
-            .then(res => console.log(res.data))
+            .then(res =>{
+                console.log(res.data);
+                if(res.data === 'Article created.') {
+                    history.push('/articles/')
+                }
+            })
             .catch(err => console.log(err));
 
         //clear editors
